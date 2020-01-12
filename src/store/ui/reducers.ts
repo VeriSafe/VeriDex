@@ -47,6 +47,7 @@ const initialUIState: UIState = {
     erc20Theme: getThemeByName(ERC20_THEME_NAME),
     generalConfig: Config.getConfig().general,
     configData: null,
+    language: { language: 'en' },
 };
 
 export function stepsModal(state: StepsModalState = initialStepsModalState, action: RootAction): StepsModalState {
@@ -215,6 +216,8 @@ export function ui(state: UIState = initialUIState, action: RootAction): UIState
                 return state;
             }
         }*/
+        case getType(actions.setLanguage):
+            return { ...state, language: { ...action.payload } };
         default:
             return {
                 ...state,

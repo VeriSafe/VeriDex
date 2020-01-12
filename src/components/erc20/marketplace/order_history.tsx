@@ -1,5 +1,6 @@
 import { OrderStatus } from '@0x/types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -39,9 +40,14 @@ const SideTD = styled(CustomTD)<{ side: OrderSide }>`
 `;
 
 const orderToRow = (order: UIOrder, index: number, baseToken: Token, quoteToken: Token) => {
-    const sideLabel = order.side === OrderSide.Sell ? 'Sell' : 'Buy';
+    const sideLabel =
+        order.side === OrderSide.Sell ? (
+            <FormattedMessage id="order-history.sell" defaultMessage="Sell" description="Sell" />
+        ) : (
+            <FormattedMessage id="order-history.buy" defaultMessage="Buy" description="Buy" />
+        );
     const size = tokenAmountInUnits(order.size, baseToken.decimals, baseToken.displayDecimals);
-    let status = '--';
+    let status: any = '--';
     let isOrderFillable = false;
 
     const filled = order.filled
@@ -49,7 +55,11 @@ const orderToRow = (order: UIOrder, index: number, baseToken: Token, quoteToken:
         : null;
     if (order.status) {
         isOrderFillable = order.status === OrderStatus.Fillable;
-        status = isOrderFillable ? 'Open' : 'Filled';
+        status = isOrderFillable ? (
+            <FormattedMessage id="order-history.open" defaultMessage="Open" description="Open" />
+        ) : (
+            <FormattedMessage id="order-history.filled" defaultMessage="Filled" description="Filled" />
+        );
     }
     const currencyPair = getCurrencyPairFromTokens(baseToken, quoteToken);
     const price = parseFloat(order.price.toString()).toFixed(currencyPair.config.pricePrecision);
@@ -79,7 +89,18 @@ class OrderHistory extends React.Component<Props> {
             case Web3State.NotInstalled:
             case Web3State.Connect:
             case Web3State.Connecting: {
-                content = <EmptyContent alignAbsoluteCenter={true} text="Connect Wallet to show your orders" />;
+                content = (
+                    <EmptyContent
+                        alignAbsoluteCenter={true}
+                        text={
+                            <FormattedMessage
+                                id="order-history.connect-to-wallet"
+                                defaultMessage="Connect Wallet to show your orders"
+                                description="Connect to Wallet"
+                            />
+                        }
+                    />
+                );
                 break;
             }
             case Web3State.Loading: {
@@ -90,7 +111,18 @@ class OrderHistory extends React.Component<Props> {
                 if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
                     content = <LoadingWrapper minHeight="120px" />;
                 } else if (!ordersToShow.length || !baseToken || !quoteToken) {
-                    content = <EmptyContent alignAbsoluteCenter={true} text="There are no orders to show" />;
+                    content = (
+                        <EmptyContent
+                            alignAbsoluteCenter={true}
+                            text={
+                                <FormattedMessage
+                                    id="order-history.no-orders"
+                                    defaultMessage="There are no orders to show"
+                                    description="No Orders"
+                                />
+                            }
+                        />
+                    );
                 } else {
                     const tokenQuoteSymbol = isWeth(quoteToken.symbol) ? 'ETH' : quoteToken.symbol.toUpperCase();
                     const tokenBaseSymbol = isWeth(baseToken.symbol) ? 'ETH' : baseToken.symbol.toUpperCase();
@@ -99,9 +131,30 @@ class OrderHistory extends React.Component<Props> {
                             <THead>
                                 <TR>
                                     <TH>Side</TH>
-                                    <TH styles={{ textAlign: 'right' }}>Size ({tokenBaseSymbol})</TH>
-                                    <TH styles={{ textAlign: 'right' }}>Filled ({tokenBaseSymbol})</TH>
-                                    <TH styles={{ textAlign: 'right' }}>Price ({tokenQuoteSymbol})</TH>
+                                    <TH styles={{ textAlign: 'right' }}>
+                                        <FormattedMessage
+                                            id="order-history.size"
+                                            defaultMessage="Size"
+                                            description="Size"
+                                        />{' '}
+                                        ({tokenBaseSymbol})
+                                    </TH>
+                                    <TH styles={{ textAlign: 'right' }}>
+                                        <FormattedMessage
+                                            id="order-history.filled"
+                                            defaultMessage="Filled"
+                                            description="Filled"
+                                        />{' '}
+                                        ({tokenBaseSymbol})
+                                    </TH>
+                                    <TH styles={{ textAlign: 'right' }}>
+                                        <FormattedMessage
+                                            id="order-history.price"
+                                            defaultMessage="Price"
+                                            description="Price"
+                                        />{' '}
+                                        ({tokenQuoteSymbol})
+                                    </TH>
                                     <TH>Status</TH>
                                     <TH>&nbsp;</TH>
                                 </TR>
@@ -116,7 +169,19 @@ class OrderHistory extends React.Component<Props> {
             }
         }
 
-        return <OrderHistoryCard title="My Current Orders">{content}</OrderHistoryCard>;
+        return (
+            <OrderHistoryCard
+                title={
+                    <FormattedMessage
+                        id="order-history.current-orders"
+                        defaultMessage="My Current Orders"
+                        description="My Current Orders"
+                    />
+                }
+            >
+                {content}
+            </OrderHistoryCard>
+        );
     };
 }
 

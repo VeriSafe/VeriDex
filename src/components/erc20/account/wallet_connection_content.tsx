@@ -1,5 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -47,14 +48,72 @@ class WalletConnectionContent extends React.PureComponent<Props> {
         const content = (
             <DropdownItems>
                 <CopyToClipboard text={ethAccount ? ethAccount : ''}>
-                    <DropdownTextItem text="Copy Address to Clipboard" />
+                    <DropdownTextItem
+                        text={
+                            <FormattedMessage
+                                id="toolbar.wallet-dropdown.copy"
+                                defaultMessage="Copy Address to Clipboard"
+                                description="Copy Address to Clipboard"
+                            />
+                        }
+                    />
                 </CopyToClipboard>
-                <DropdownTextItem onClick={viewAccountExplorer} text="View Address on Etherscan" />
-                <DropdownTextItem onClick={connectToExplorer} text="Track DEX volume" />
-                <DropdownTextItem onClick={openFabrx} text="Set Alerts" />
-                <DropdownTextItem onClick={onGoToHomeLaunchpad} text="Launchpad" />
-                <DropdownTextItem onClick={onGoToHomeMarginLend} text="Lend" />
-                <DropdownTextItem onClick={onLogoutWallet} text="Logout Wallet" />
+                <DropdownTextItem
+                    onClick={viewAccountExplorer}
+                    text={
+                        <FormattedMessage
+                            id="toolbar.wallet-dropdown.view-address"
+                            defaultMessage="View Address on Etherscan"
+                            description="View Address on Etherscan"
+                        />
+                    }
+                />
+                <DropdownTextItem
+                    onClick={connectToExplorer}
+                    text={
+                        <FormattedMessage
+                            id="toolbar.wallet-dropdown.track-dex"
+                            defaultMessage="Track DEX volume"
+                            description="Track DEX volume"
+                        />
+                    }
+                />
+                <DropdownTextItem
+                    onClick={openFabrx}
+                    text={
+                        <FormattedMessage
+                            id="toolbar.wallet-dropdown.set-alerts"
+                            defaultMessage="Set Alerts"
+                            description="Set Alerts"
+                        />
+                    }
+                />
+                <DropdownTextItem
+                    onClick={onGoToHomeLaunchpad}
+                    text={
+                        <FormattedMessage
+                            id="toolbar.wallet-dropdown.launchpad"
+                            defaultMessage="Launchpad"
+                            description="Launchpad"
+                        />
+                    }
+                />
+                <DropdownTextItem
+                    onClick={onGoToHomeMarginLend}
+                    text={
+                        <FormattedMessage id="toolbar.wallet-dropdown.lend" defaultMessage="Lend" description="Lend" />
+                    }
+                />
+                <DropdownTextItem
+                    onClick={onLogoutWallet}
+                    text={
+                        <FormattedMessage
+                            id="toolbar.wallet-dropdown.logout"
+                            defaultMessage="Logout Wallet"
+                            description="Logout"
+                        />
+                    }
+                />
             </DropdownItems>
         );
 

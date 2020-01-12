@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 
@@ -15,6 +16,7 @@ import {
     setThemeName,
 } from '../../../store/actions';
 import { getGeneralConfig, getThemeName } from '../../../store/selectors';
+import { setLanguage } from '../../../store/ui/actions';
 import { Theme, themeBreakPoints } from '../../../themes/commons';
 import { getThemeFromConfigDex } from '../../../themes/theme_meta_data_utils';
 import { isMobile } from '../../../util/screen';
@@ -24,16 +26,19 @@ import { LogoIcon } from '../../common/icons/logo_icon';
 import { MenuBurguer } from '../../common/icons/menu_burguer';
 import { WalletConnectionContentContainer } from '../account/wallet_connection_content';
 
+import LanguagesDropdown from './languages_dropdown';
 import { MarketsDropdownContainer } from './markets_dropdown';
 
 interface DispatchProps {
     onGoToHome: () => any;
     onGoToWallet: () => any;
+    onChangeLanguage: (value: string) => any;
 }
 
 interface OwnProps {
     theme: Theme;
     windowWidth: number;
+    language: string;
 }
 
 type Props = DispatchProps & OwnProps;
@@ -61,6 +66,10 @@ const MarketsDropdownHeader = styled<any>(MarketsDropdownContainer)`
     align-items: center;
     display: flex;
 
+    ${separatorTopbar}
+`;
+
+const LanguagesDropdownContainer = styled<any>(LanguagesDropdown)`
     ${separatorTopbar}
 `;
 
@@ -142,6 +151,12 @@ const ToolbarContent = (props: Props) => {
         e.preventDefault();
         props.onGoToWallet();
     };
+
+    const changeLanguage = (e: any) => {
+        const value = e.target.attributes.value.value;
+        props.onChangeLanguage(value);
+    };
+
     let endContent;
     if (isMobile(props.windowWidth)) {
         endContent = (
@@ -156,12 +171,13 @@ const ToolbarContent = (props: Props) => {
                     {themeName === 'DARK_THEME' ? '☼' : '🌑'}
                 </StyledButton>
                 <StyledButton onClick={handleFiatChooseModal} className={'buy-eth'}>
-                    Buy ETH
+                    <FormattedMessage id="toolbar.buy-eth" defaultMessage="Buy ETH" description="Buy ETH" />
                 </StyledButton>
                 <MyWalletLink href="/my-wallet" onClick={handleMyWalletClick} className={'my-wallet'}>
-                    My Wallet
+                    <FormattedMessage id="toolbar.my-wallet" defaultMessage="My Wallet" description="My Wallet" />
                 </MyWalletLink>
                 <WalletDropdown className={'wallet-dropdown'} />
+                <LanguagesDropdownContainer onClick={changeLanguage} language={props.language} />
                 <NotificationsDropdownContainer className={'notifications'} />
             </>
         );
@@ -170,13 +186,22 @@ const ToolbarContent = (props: Props) => {
     return <ToolbarContainer startContent={startContent} endContent={endContent} />;
 };
 
+const mapStateToProps = (state: any) => {
+    return {
+        language: state.ui.language.language,
+    };
+};
+
 const mapDispatchToProps = (dispatch: any): DispatchProps => {
     return {
         onGoToHome: () => dispatch(goToHome()),
         onGoToWallet: () => dispatch(goToWallet()),
+        onChangeLanguage: value => dispatch(setLanguage({ language: value })),
     };
 };
 
-const ToolbarContentContainer = withWindowWidth(withTheme(connect(null, mapDispatchToProps)(ToolbarContent)));
+const ToolbarContentContainer = withWindowWidth(
+    withTheme(connect(mapStateToProps, mapDispatchToProps)(ToolbarContent)),
+);
 
 export { ToolbarContent, ToolbarContentContainer as default };

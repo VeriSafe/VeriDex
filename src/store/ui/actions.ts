@@ -58,6 +58,7 @@ import {
     Token,
     TokenBalance,
     TokenIEO,
+    Language,
 } from '../../util/types';
 import { setCurrencyPair } from '../market/actions';
 import { setFeePercentage, setFeeRecipient } from '../relayer/actions';
@@ -865,3 +866,9 @@ export const initConfigData: ThunkCreator = (queryString: string | undefined, do
     };
     // tslint:disable-next-line: max-file-line-count
 };
+
+export const setLanguage = createAction('ui/SET_LANGUAGE', resolve => {
+    return (language: Language) => {
+        return resolve(language);
+    };
+});

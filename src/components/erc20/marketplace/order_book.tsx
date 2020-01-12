@@ -1,5 +1,6 @@
 import { BigNumber } from '@0x/utils';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 
@@ -299,12 +300,23 @@ class OrderBookTable extends React.Component<Props> {
         } else if (web3State === Web3State.Loading) {
             content = <CenteredLoading />;
         } else if ((!buyOrders.length && !sellOrders.length) || !baseToken || !quoteToken) {
-            content = <EmptyContent alignAbsoluteCenter={true} text="There are no orders to show" />;
+            content = (
+                <EmptyContent
+                    alignAbsoluteCenter={true}
+                    text={
+                        <FormattedMessage
+                            id="order-book.no-orders"
+                            defaultMessage="There are no orders to show"
+                            description="There are no orders to show"
+                        />
+                    }
+                />
+            );
         } else {
             const mySizeHeader =
                 web3State !== Web3State.Locked && web3State !== Web3State.NotInstalled ? (
                     <THLast as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                        My Size
+                        <FormattedMessage id="order-book.my-size" defaultMessage="My Size" description="My Size" />
                     </THLast>
                 ) : null;
 
@@ -340,10 +352,15 @@ class OrderBookTable extends React.Component<Props> {
                     </TotalRow>
                     <GridRowTop as="div">
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Trade size
+                            <FormattedMessage
+                                id="order-book.trade-size"
+                                defaultMessage="Trade size"
+                                description="Trade size"
+                            />
                         </TH>
                         <TH as="div" styles={{ textAlign: 'right', borderBottom: true }}>
-                            Price ({quoteToken.symbol})
+                            <FormattedMessage id="order-book.price" defaultMessage="Price" description="Price" /> (
+                            {quoteToken.symbol})
                         </TH>
                         {mySizeHeader}
                     </GridRowTop>
@@ -371,7 +388,11 @@ class OrderBookTable extends React.Component<Props> {
                             </TopItems>
                             <GridRowSpreadContainer ref={this._spreadRowScrollable}>
                                 <CustomTDTitle as="div" styles={customTDTitleStyles}>
-                                    Spread
+                                    <FormattedMessage
+                                        id="order-book.spread"
+                                        defaultMessage="Spread"
+                                        description="Spread"
+                                    />
                                 </CustomTDTitle>
                                 <CustomTD as="div" styles={customTDStyles}>
                                     {spreadAbsFixed}
@@ -405,7 +426,13 @@ class OrderBookTable extends React.Component<Props> {
             );
         }
 
-        return <OrderbookCard title="Orderbook">{content}</OrderbookCard>;
+        return (
+            <OrderbookCard
+                title={<FormattedMessage id="order-book.title" defaultMessage="Orderbook" description="Title" />}
+            >
+                {content}
+            </OrderbookCard>
+        );
     };
 
     public componentDidMount = () => {

@@ -13,7 +13,7 @@ import { Theme, ThemeModalStyle, ThemeProperties } from '../themes/commons';
 export interface TabItem {
     active: boolean;
     onClick: any;
-    text: string;
+    text: any;
 }
 
 export type Maybe<T> = T | undefined;
@@ -174,6 +174,11 @@ export interface UIState {
     readonly themeName: string;
     readonly generalConfig?: GeneralConfig;
     readonly configData?: ConfigData | null;
+    readonly language: Language;
+}
+
+export interface Language {
+    language: string;
 }
 
 export interface MarketState {
@@ -336,7 +341,7 @@ export interface UIOrder {
     size: BigNumber;
     filled: BigNumber | null;
     price: BigNumber;
-    status: OrderStatus | null;
+    status: OrderStatus | Element | null;
 }
 
 export interface OrderBookItem {

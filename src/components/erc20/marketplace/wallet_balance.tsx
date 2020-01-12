@@ -1,5 +1,6 @@
 import { BigNumber } from '@0x/utils';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 
@@ -191,16 +192,26 @@ const getWalletContent = (web3State: Web3State, wallet: Wallet | null) => {
 };
 
 const getWalletTitle = (web3State: Web3State) => {
-    let title = 'Wallet Balance';
+    let title = (
+        <FormattedMessage id="market-balance.title" defaultMessage="Wallet Balance" description="Wallet Balance" />
+    );
 
     if (web3State === Web3State.NotInstalled) {
-        title = 'No wallet found';
+        title = (
+            <FormattedMessage
+                id="market-balance.no-wallet"
+                defaultMessage="No wallet found"
+                description="No wallet found"
+            />
+        );
     }
     if (web3State === Web3State.Connect) {
-        title = 'Connect';
+        title = <FormattedMessage id="market-balance.connect" defaultMessage="Connect" description="Connect" />;
     }
     if (web3State === Web3State.Connecting) {
-        title = 'Connecting';
+        title = (
+            <FormattedMessage id="market-balance.connecting" defaultMessage="Connecting" description="Connecting" />
+        );
     }
 
     return title;
@@ -261,7 +272,16 @@ class WalletBalance extends React.Component<Props, State> {
                 baseTokenBalance.token.displayDecimals,
             );
             const toolTip = isWeth(quoteToken.symbol) ? (
-                <TooltipStyled description="Showing ETH + wETH balance" iconType={IconType.Fill} />
+                <TooltipStyled
+                    description={
+                        <FormattedMessage
+                            id="market-balance.tooltip"
+                            defaultMessage="Showing ETH + wETH balance"
+                            description="tooltip message"
+                        />
+                    }
+                    iconType={IconType.Fill}
+                />
             ) : null;
             const quoteTokenLabel = isWeth(quoteToken.symbol) ? 'ETH' : tokenSymbolToDisplayString(currencyPair.quote);
 
@@ -282,9 +302,9 @@ class WalletBalance extends React.Component<Props, State> {
                         </Label>
                         <Value>{quoteBalanceString}</Value>
                     </LabelWrapper>
-                    {/*<ButtonStyled onClick={openFiatOnRamp} variant={ButtonVariant.Buy}>
-                        Buy ETH
-                    </ButtonStyled>*/}
+                    {/* <ButtonStyled onClick={openFiatOnRamp} variant={ButtonVariant.Buy}>
+                        <FormattedMessage id="market-balance.buy-eth" defaultMessage="Buy ETH" description="Buy ETH" />
+                    </ButtonStyled> */}
                 </>
             );
         }
@@ -321,7 +341,13 @@ class WalletBalance extends React.Component<Props, State> {
                         fontSize={FontSize.Large}
                         icon={ErrorIcons.Lock}
                         onClick={onConnectingWallet}
-                        text={'Connect Your Wallet'}
+                        text={
+                            <FormattedMessage
+                                id="market-balance.connect-wallet"
+                                defaultMessage="Connect Your Wallet"
+                                description="Connect Your Wallet"
+                            />
+                        }
                         textAlign="center"
                     />
                 </WalletErrorContainer>
@@ -334,7 +360,13 @@ class WalletBalance extends React.Component<Props, State> {
                         fontSize={FontSize.Large}
                         icon={ErrorIcons.Lock}
                         onClick={onChooseWallet}
-                        text={'Connecting Your Wallet'}
+                        text={
+                            <FormattedMessage
+                                id="market-balance.connecting-wallet"
+                                defaultMessage="Connecting Your Wallet"
+                                description="Connecting Your Wallet"
+                            />
+                        }
                         textAlign="center"
                     />
                 </WalletErrorContainer>
@@ -344,7 +376,13 @@ class WalletBalance extends React.Component<Props, State> {
         if (web3State === Web3State.NotInstalled) {
             content = (
                 <>
-                    <WalletErrorText>Install Metamask wallet to make trades.</WalletErrorText>
+                    <WalletErrorText>
+                        <FormattedMessage
+                            id="market-balance.install-wallet"
+                            defaultMessage="Install Metamask wallet to make trades."
+                            description="Install Metamask wallet to make trades."
+                        />
+                    </WalletErrorText>
                     <ButtonStyled variant={ButtonVariant.Tertiary} onClick={openMetamaskExtensionUrl}>
                         {errorsWallet.mmGetExtension}
                     </ButtonStyled>

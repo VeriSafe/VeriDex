@@ -10,7 +10,7 @@ import { WalletIcon } from './icons/wallet_icon';
 import { WarningIcon } from './icons/warning_icon';
 
 interface Props extends HTMLAttributes<HTMLDivElement>, ErrorProps {
-    text: string;
+    text: any;
 }
 
 interface ErrorProps {

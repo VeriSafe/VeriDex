@@ -1,5 +1,6 @@
 import { BigNumber } from '@0x/utils';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 
@@ -279,7 +280,14 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
                     />
                 </TokenTD>
                 <CustomTDTokenName styles={{ borderBottom: true }}>
-                    <TokenName>ETH Total</TokenName> {` (ETH + wETH)`}
+                    <TokenName>
+                        <FormattedMessage
+                            id="wallet-token-balances.eth-total"
+                            defaultMessage="ETH Total"
+                            description="ETH Total"
+                        />
+                    </TokenName>{' '}
+                    {` (ETH + wETH)`}
                 </CustomTDTokenName>
                 <CustomTD styles={{ borderBottom: true, textAlign: 'right', tabular: true }}>
                     {formattedTotalEthBalance}
@@ -303,10 +311,14 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
                 <CustomTD styles={{ borderBottom: true, textAlign: 'left' }}>
                     <ButtonsContainer>
                         <Button onClick={openTransferEthModal} variant={ButtonVariant.Primary}>
-                            Send
+                            <FormattedMessage
+                                id="wallet-token-balances.send"
+                                defaultMessage="Send"
+                                description="Send"
+                            />
                         </Button>
                         <BuyETHButton onClick={openFiatOnRamp} variant={ButtonVariant.Buy}>
-                            Buy
+                            <FormattedMessage id="wallet-token-balances.buy" defaultMessage="Buy" description="Buy" />
                         </BuyETHButton>
                     </ButtonsContainer>
                 </CustomTD>
@@ -368,7 +380,11 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
                     <CustomTD styles={{ borderBottom: true, textAlign: 'left' }}>
                         <ButtonsContainer>
                             <Button onClick={openTransferModal} variant={ButtonVariant.Primary}>
-                                Send
+                                <FormattedMessage
+                                    id="wallet-token-balances.sell"
+                                    defaultMessage="Sell"
+                                    description="Sell"
+                                />
                             </Button>
                             <ZeroXInstantWidget
                                 orderSource={RELAYER_URL}
@@ -406,7 +422,13 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
             return (
                 <TR>
                     <CustomTD styles={{ borderBottom: true, textAlign: 'right', tabular: true }} />
-                    <CustomTDTokenName styles={{ borderBottom: true }}>TOTAL HOLDINGS</CustomTDTokenName>
+                    <CustomTDTokenName styles={{ borderBottom: true }}>
+                        <FormattedMessage
+                            id="wallet-token-balances.total-holdings"
+                            defaultMessage="TOTAL HOLDINGS"
+                            description="TOTAL HOLDINGS"
+                        />
+                    </CustomTDTokenName>
                     <CustomTD styles={{ borderBottom: true, textAlign: 'right', tabular: true }} />
                     <CustomTD styles={{ borderBottom: true, textAlign: 'right', tabular: true }} />
                     <CustomTD styles={{ borderBottom: true, textAlign: 'right', tabular: true }}>
@@ -430,12 +452,48 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
                             <TR>
                                 <THStyled>Token</THStyled>
                                 <THStyled>{}</THStyled>
-                                <THStyled styles={{ textAlign: 'right' }}>Available Qty.</THStyled>
-                                <THStyled styles={{ textAlign: 'right' }}>Price (USD)</THStyled>
-                                <THStyled styles={{ textAlign: 'right' }}>Value (USD)</THStyled>
-                                <THStyled styles={{ textAlign: 'right' }}>% Change</THStyled>
-                                <THLast styles={{ textAlign: 'center' }}>Locked?</THLast>
-                                <THLast styles={{ textAlign: 'center' }}>Actions</THLast>
+                                <THStyled styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.availabe-qtt"
+                                        defaultMessage="Available Qty."
+                                        description="Available Qty."
+                                    />
+                                </THStyled>
+                                <THStyled styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.price"
+                                        defaultMessage="Price (USD)"
+                                        description="Price (USD)"
+                                    />
+                                </THStyled>
+                                <THStyled styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.value"
+                                        defaultMessage="Value (USD)"
+                                        description="Value (USD)"
+                                    />
+                                </THStyled>
+                                <THStyled styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.change"
+                                        defaultMessage="% Change"
+                                        description="% Change"
+                                    />
+                                </THStyled>
+                                <THLast styles={{ textAlign: 'center' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.locked"
+                                        defaultMessage="Locked?"
+                                        description="Locked?"
+                                    />
+                                </THLast>
+                                <THLast styles={{ textAlign: 'center' }}>
+                                    <FormattedMessage
+                                        id="wallet-token-balances.actions"
+                                        defaultMessage="Actions"
+                                        description="Actions"
+                                    />
+                                </THLast>
                             </TR>
                         </THead>
                         <TBody>
@@ -459,7 +517,19 @@ class WalletTokenBalances extends React.PureComponent<Props, State> {
             );
         }
 
-        return <Card title="Token Balances">{content}</Card>;
+        return (
+            <Card
+                title={
+                    <FormattedMessage
+                        id="wallet-token-balances.token-balances"
+                        defaultMessage="Token Balances"
+                        description="Token Balances"
+                    />
+                }
+            >
+                {content}
+            </Card>
+        );
     };
     public closeModal = () => {
         this.setState({

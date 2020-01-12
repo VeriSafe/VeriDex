@@ -1,6 +1,7 @@
 import arrayMutators from 'final-form-arrays';
 import React, { useState } from 'react';
 import { Form } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 import Joyride, { ACTIONS, CallBackProps, EVENTS, STATUS, Step } from 'react-joyride';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
@@ -56,32 +57,59 @@ const WizardForm = (_props: Props) => {
     const steps: Step[] = [
         {
             target: '.general-config-step',
-            content:
-                'Welcome to Dex Wizard! Configure your dex with your custom domain, title and logo. Add your ethereum fee recipient  address to receive affiliate fees when supported ',
+            content: (
+                <FormattedMessage
+                    id="wizard-form.welcome"
+                    defaultMessage="Welcome to Dex Wizard! Configure your dex with your custom domain, title and logo. Add your ethereum fee recipient  address to receive affiliate fees when supported "
+                    description="Welcome to Dex Wizard! Configure your dex with your custom domain, title and logo. Add your ethereum fee recipient  address to receive affiliate fees when supported "
+                />
+            ),
             placementBeacon: 'top',
             disableBeacon: true,
             floaterProps: { disableAnimation: true },
         },
         {
             target: '.theme-step',
-            content: 'Choose a predefined theme (Light or Dark) and configure below the colors if needed',
+            content: (
+                <FormattedMessage
+                    id="wizard-form.choose"
+                    defaultMessage="Choose a predefined theme (Light or Dark) and configure below the colors if needed"
+                    description="Choose a predefined theme (Light or Dark) and configure below the colors if needed"
+                />
+            ),
             placementBeacon: 'top',
         },
         {
             target: '.tokens-step',
-            content:
-                'Add tokens by using contract address. If the token is listed on Coingecko it will get automatically the logo.',
+            content: (
+                <FormattedMessage
+                    id="wizard-form.add-tokens"
+                    defaultMessage="Add tokens by using contract address. If the token is listed on Coingecko it will get automatically the logo."
+                    description="Add tokens by using contract address. If the token is listed on Coingecko it will get automatically the logo."
+                />
+            ),
             placementBeacon: 'top',
         },
         {
             target: '.pairs-step',
-            content:
-                'VSF and Eth pairs are added automatically when you add Tokens. Here you can change the order how the pairs appears on the DEX',
+            content: (
+                <FormattedMessage
+                    id="wizard-form.vsf-eth"
+                    defaultMessage="VSF and Eth pairs are added automatically when you add Tokens. Here you can change the order how the pairs appears on the DEX"
+                    description="VSF and Eth pairs are added automatically when you add Tokens. Here you can change the order how the pairs appears on the DEX"
+                />
+            ),
             placementBeacon: 'top',
         },
         {
             target: '.market-filters-step',
-            content: 'The market quotes supported by the DEX. Now it is locked at ETH and VSF',
+            content: (
+                <FormattedMessage
+                    id="wizard-form.the-market"
+                    defaultMessage="The market quotes supported by the DEX. Now it is locked at ETH and VSF"
+                    description="The market quotes supported by the DEX. Now it is locked at ETH and VSF"
+                />
+            ),
             placementBeacon: 'top',
         },
     ];
@@ -168,7 +196,11 @@ const WizardForm = (_props: Props) => {
                                     disabled={submitting || pristine}
                                     variant={ButtonVariant.Buy}
                                 >
-                                    Submit
+                                    <FormattedMessage
+                                        id="wizard-form.submit"
+                                        defaultMessage="Submit"
+                                        description="Submit"
+                                    />
                                 </Button>
                             </ButtonContainer>
                             <ButtonContainer>
@@ -236,7 +268,12 @@ const WizardForm = (_props: Props) => {
         <Card title="DEX Wizard">
             <Introduction>
                 {' '}
-                Create your DEX with few steps. <button onClick={onTakeTutorial}>Take Tutorial</button>
+                <FormattedMessage
+                    id="wizard-form.create"
+                    defaultMessage="Create your DEX with few steps."
+                    description="Create your DEX with few steps."
+                />{' '}
+                <button onClick={onTakeTutorial}>Take Tutorial</button>
             </Introduction>
             <Joyride
                 run={isRun}

@@ -1,5 +1,6 @@
 import { BigNumber } from '@0x/utils';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -257,12 +258,12 @@ class BuySell extends React.Component<Props, State> {
             {
                 active: orderType === OrderType.Market,
                 onClick: this._switchToMarket,
-                text: 'Market',
+                text: <FormattedMessage id="buy-sell.market" defaultMessage="Market" description="Market" />,
             },
             {
                 active: orderType === OrderType.Limit,
                 onClick: this._switchToLimit,
-                text: 'Limit',
+                text: <FormattedMessage id="buy-sell.limit" defaultMessage="Limit" description="Limit" />,
             },
         ];
         const decimals = getKnownTokens().getTokenBySymbol(currencyPair.base).decimals;
@@ -286,7 +287,7 @@ class BuySell extends React.Component<Props, State> {
             orderType === OrderType.Limit && (isMakerAmountEmpty || isPriceEmpty || isPriceMin);
         const isOrderTypeMarketIsEmpty = orderType === OrderType.Market && (isMakerAmountEmpty || isMakerAmountMin);
         const baseSymbol = formatTokenSymbol(currencyPair.base);
-        const btnPrefix = tab === OrderSide.Buy ? 'Buy ' : 'Sell ';
+        const btnPrefix = tab === OrderSide.Buy ? 'Buy' : 'Sell';
         const btnText = error && error.btnMsg ? 'Error' : btnPrefix + baseSymbol;
 
         return (
@@ -298,20 +299,24 @@ class BuySell extends React.Component<Props, State> {
                             onClick={this.changeTab(OrderSide.Buy)}
                             side={OrderSide.Buy}
                         >
-                            Buy
+                            <FormattedMessage id="buy-sell.buy" defaultMessage="Buy " description="Buy" />
                         </TabButton>
                         <TabButton
                             isSelected={tab === OrderSide.Sell}
                             onClick={this.changeTab(OrderSide.Sell)}
                             side={OrderSide.Sell}
                         >
-                            Sell
+                            <FormattedMessage id="buy-sell.sell" defaultMessage="Sell " description="Sell" />
                         </TabButton>
                     </TabsContainer>
                     <Content>
                         <LabelContainer>
                             <Label>
-                                Amount <MinLabel>(Min: {minAmount})</MinLabel>
+                                <FormattedMessage id="buy-sell.amount" defaultMessage="Amount" description="Amount" /> (
+                                <MinLabel>
+                                    <FormattedMessage id="buy-sell.min" defaultMessage="Min" description="Min" />:{' '}
+                                    {minAmount})
+                                </MinLabel>
                             </Label>
                             <InnerTabs tabs={buySellInnerTabs} />
                         </LabelContainer>
@@ -333,7 +338,13 @@ class BuySell extends React.Component<Props, State> {
                         {orderType === OrderType.Limit && (
                             <>
                                 <LabelContainer>
-                                    <Label>Price per token</Label>
+                                    <Label>
+                                        <FormattedMessage
+                                            id="buy-sell.price-per-token"
+                                            defaultMessage="Price per token"
+                                            description="Price per token"
+                                        />
+                                    </Label>
                                 </LabelContainer>
                                 <FieldContainer>
                                     <BigInputNumberStyled

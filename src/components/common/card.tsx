@@ -6,7 +6,7 @@ import { themeDimensions } from '../../themes/commons';
 import { CardBase } from './card_base';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-    title?: string;
+    title?: any;
     action?: React.ReactNode;
     children: React.ReactNode;
     minHeightBody?: string;

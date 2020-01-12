@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import TimeAgo from 'react-timeago';
 import styled from 'styled-components';
@@ -41,7 +42,12 @@ export const SideTD = styled(CustomTD)<{ side: OrderSide }>`
 `;
 
 const fillToRow = (fill: Fill, index: number) => {
-    const sideLabel = fill.side === OrderSide.Sell ? 'Sell' : 'Buy';
+    const sideLabel =
+        fill.side === OrderSide.Sell ? (
+            <FormattedMessage id="order-history.sell" defaultMessage="Sell" description="Sell" />
+        ) : (
+            <FormattedMessage id="order-history.buy" defaultMessage="Buy" description="Buy" />
+        );
     let amountBase;
     let amountQuote;
     if (USE_RELAYER_MARKET_UPDATES) {
@@ -85,9 +91,31 @@ class MarketFills extends React.Component<Props> {
             if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
                 content = <LoadingWrapper minHeight="120px" />;
             } else if (!Object.keys(marketFills).length || !baseToken || !quoteToken) {
-                content = <EmptyContent alignAbsoluteCenter={true} text="There are no trades to show" />;
+                content = (
+                    <EmptyContent
+                        alignAbsoluteCenter={true}
+                        text={
+                            <FormattedMessage
+                                id="market-fills.no-trades"
+                                defaultMessage="There are no trades to show"
+                                description="There are no trades to show"
+                            />
+                        }
+                    />
+                );
             } else if (!marketFills[marketToStringFromTokens(baseToken, quoteToken)]) {
-                content = <EmptyContent alignAbsoluteCenter={true} text="There are no trades to show" />;
+                content = (
+                    <EmptyContent
+                        alignAbsoluteCenter={true}
+                        text={
+                            <FormattedMessage
+                                id="market-fills.no-trades"
+                                defaultMessage="There are no trades to show"
+                                description="There are no trades to show"
+                            />
+                        }
+                    />
+                );
             } else {
                 const market = marketToStringFromTokens(baseToken, quoteToken);
                 const tokenQuoteSymbol = isWeth(quoteToken.symbol) ? 'ETH' : quoteToken.symbol.toUpperCase();
@@ -97,10 +125,33 @@ class MarketFills extends React.Component<Props> {
                         <THead>
                             <TR>
                                 <TH>Side</TH>
-                                <TH styles={{ textAlign: 'right' }}>Price ({tokenQuoteSymbol})</TH>
-                                <TH styles={{ textAlign: 'right' }}>Amount ({tokenBaseSymbol})</TH>
-                                <TH styles={{ textAlign: 'right' }}>Total ({tokenQuoteSymbol})</TH>
-                                <TH styles={{ textAlign: 'right' }}>Age</TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="order-history.price"
+                                        defaultMessage="Price"
+                                        description="Price"
+                                    />{' '}
+                                    ({tokenQuoteSymbol})
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="market-fills.amount"
+                                        defaultMessage="Amount"
+                                        description="Amount"
+                                    />{' '}
+                                    ({tokenBaseSymbol})
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="market-fills.total"
+                                        defaultMessage="Total"
+                                        description="Total"
+                                    />{' '}
+                                    ({tokenQuoteSymbol})
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage id="market-fills.age" defaultMessage="Age" description="Age" />
+                                </TH>
                             </TR>
                         </THead>
                         <tbody>{marketFills[market].map((marketFill, index) => fillToRow(marketFill, index))}</tbody>
@@ -117,7 +168,18 @@ class MarketFills extends React.Component<Props> {
                 case Web3State.Connect:
                 case Web3State.Connecting:
                 case Web3State.NotInstalled: {
-                    content = <EmptyContent alignAbsoluteCenter={true} text="Connect wallet to show market history" />;
+                    content = (
+                        <EmptyContent
+                            alignAbsoluteCenter={true}
+                            text={
+                                <FormattedMessage
+                                    id="order-history.connect-to-wallet"
+                                    defaultMessage="Connect Wallet to show your orders"
+                                    description="Connect to Wallet"
+                                />
+                            }
+                        />
+                    );
                     break;
                 }
                 case Web3State.Loading: {
@@ -131,7 +193,16 @@ class MarketFills extends React.Component<Props> {
         }
 
         return (
-            <MarketTradesList title="Market History" minHeightBody={'190px'}>
+            <MarketTradesList
+                title={
+                    <FormattedMessage
+                        id="market-fills.market-history"
+                        defaultMessage="Market History"
+                        description="Market History"
+                    />
+                }
+                minHeightBody={'190px'}
+            >
                 {content}
             </MarketTradesList>
         );

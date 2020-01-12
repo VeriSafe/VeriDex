@@ -1,5 +1,6 @@
 import { BigNumber } from '@0x/utils';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import styled, { withTheme } from 'styled-components';
 
@@ -194,21 +195,39 @@ class WalletWethBalance extends React.PureComponent<Props, State> {
                         <Value>{formattedEth}</Value>
                     </Row>
                     <Button disabled={isButtonConvertDisable} onClick={this.openModal}>
-                        <ButtonLabel>Convert</ButtonLabel>
+                        <ButtonLabel>
+                            <FormattedMessage
+                                id="wallet-wth-balances.convert"
+                                defaultMessage="Convert"
+                                description="Convert"
+                            />
+                        </ButtonLabel>
                         <ArrowUpDownIcon />
                     </Button>
                     <Row>
                         <LabelWrapper>
                             <Label>wETH</Label>{' '}
                             <Tooltip
-                                description="ETH cannot be traded with other tokens directly.<br />You need to convert it to WETH first.<br />WETH can be converted back to ETH at any time."
+                                description={
+                                    <FormattedMessage
+                                        id="wallet-wth-balances.eth-cannot"
+                                        defaultMessage="ETH cannot be traded with other tokens directly.<br />You need to convert it to WETH first.<br />WETH can be converted back to ETH at any time."
+                                        description="ETH cannot be traded with other tokens directly.<br />You need to convert it to WETH first.<br />WETH can be converted back to ETH at any time."
+                                    />
+                                }
                                 iconType={IconType.Fill}
                             />
                         </LabelWrapper>
                         <Value>{formattedWeth}</Value>
                     </Row>
                     <Row>
-                        <Label>Total Value</Label>
+                        <Label>
+                            <FormattedMessage
+                                id="wallet-wth-balances.total-value"
+                                defaultMessage="Total Value"
+                                description="Total Value"
+                            />
+                        </Label>
                         <Value>{formattedTotalEth} ETH</Value>
                     </Row>
                     <WethModal
@@ -227,13 +246,35 @@ class WalletWethBalance extends React.PureComponent<Props, State> {
 
         return (
             <>
-                <Card title={inDropdown ? '' : 'ETH / wETH Balances'} className={className}>
+                <Card
+                    title={
+                        inDropdown ? (
+                            ''
+                        ) : (
+                            <FormattedMessage
+                                id="wallet-wth-balances.eth-balances"
+                                defaultMessage="ETH / wETH Balances"
+                                description="ETH / wETH Balances"
+                            />
+                        )
+                    }
+                    className={className}
+                >
                     <Content>{content}</Content>
                 </Card>
                 {inDropdown ? null : (
                     <Note>
-                        wETH is used for trades on 0x
-                        <br />1 wETH = 1 ETH
+                        <FormattedMessage
+                            id="wallet-wth-balances.is-used"
+                            defaultMessage="wETH is used for trades on 0x"
+                            description="wETH is used for trades on 0x"
+                        />
+                        <br />
+                        <FormattedMessage
+                            id="wallet-wth-balances.1-1"
+                            defaultMessage="1 wETH = 1 ETH"
+                            description="1 wETH = 1 ETH"
+                        />
                     </Note>
                 )}
             </>

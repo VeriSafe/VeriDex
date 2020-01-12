@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import TimeAgo from 'react-timeago';
 import styled from 'styled-components';
@@ -43,7 +44,12 @@ export const ClicableTD = styled(CustomTD)`
 `;
 
 const fillToRow = (fill: Fill, index: number, _setMarket: any) => {
-    const sideLabel = fill.side === OrderSide.Sell ? 'Sell' : 'Buy';
+    const sideLabel =
+        fill.side === OrderSide.Sell ? (
+            <FormattedMessage id="order-history.sell" defaultMessage="Sell" description="Sell" />
+        ) : (
+            <FormattedMessage id="order-history.buy" defaultMessage="Buy" description="Buy" />
+        );
     let amountBase;
     let amountQuote;
     if (USE_RELAYER_MARKET_UPDATES) {
@@ -91,7 +97,18 @@ class OrderFills extends React.Component<Props> {
             if (web3State !== Web3State.Error && (!baseToken || !quoteToken)) {
                 content = <LoadingWrapper minHeight="120px" />;
             } else if (!fills.length || !baseToken || !quoteToken) {
-                content = <EmptyContent alignAbsoluteCenter={true} text="There are no trades to show" />;
+                content = (
+                    <EmptyContent
+                        alignAbsoluteCenter={true}
+                        text={
+                            <FormattedMessage
+                                id="order-fills.no-trades"
+                                defaultMessage="There are no trades to show"
+                                description="There are no trades to show"
+                            />
+                        }
+                    />
+                );
             } else {
                 const _setMarket: any = (currencyPair: CurrencyPair) => {
                     this.props.changeMarket(currencyPair);
@@ -102,11 +119,33 @@ class OrderFills extends React.Component<Props> {
                         <THead>
                             <TR>
                                 <TH>Side</TH>
-                                <TH styles={{ textAlign: 'right' }}>Market</TH>
-                                <TH styles={{ textAlign: 'right' }}>Price</TH>
-                                <TH styles={{ textAlign: 'right' }}>Base</TH>
-                                <TH styles={{ textAlign: 'right' }}>Quote</TH>
-                                <TH styles={{ textAlign: 'right' }}>Age</TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="order-fills.market"
+                                        defaultMessage="Market"
+                                        description="Market"
+                                    />
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="order-fills.price"
+                                        defaultMessage="Price"
+                                        description="Price"
+                                    />
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage id="order-fills.base" defaultMessage="Base" description="Base" />
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage
+                                        id="order-fills.quote"
+                                        defaultMessage="Quote"
+                                        description="Quote"
+                                    />
+                                </TH>
+                                <TH styles={{ textAlign: 'right' }}>
+                                    <FormattedMessage id="order-fills.age" defaultMessage="Age" description="Age" />
+                                </TH>
                             </TR>
                         </THead>
                         <tbody>{fills.map((fill, index) => fillToRow(fill, index, _setMarket))}</tbody>
@@ -122,7 +161,18 @@ class OrderFills extends React.Component<Props> {
                 case Web3State.Connect:
                 case Web3State.Connecting:
                 case Web3State.NotInstalled: {
-                    content = <EmptyContent alignAbsoluteCenter={true} text="Connect Wallet to show history" />;
+                    content = (
+                        <EmptyContent
+                            alignAbsoluteCenter={true}
+                            text={
+                                <FormattedMessage
+                                    id="order-fills.connect-wallet"
+                                    defaultMessage="Connect Wallet to show history"
+                                    description="Connect Wallet to show history"
+                                />
+                            }
+                        />
+                    );
                     break;
                 }
                 case Web3State.Loading: {
@@ -135,7 +185,19 @@ class OrderFills extends React.Component<Props> {
                 }
             }
         }
-        return <DexTradesList title="Last 0X Mesh Trades">{content}</DexTradesList>;
+        return (
+            <DexTradesList
+                title={
+                    <FormattedMessage
+                        id="order-fills.last-trades"
+                        defaultMessage="Last 0X Mesh Trades"
+                        description="Last 0X Mesh Trades"
+                    />
+                }
+            >
+                {content}
+            </DexTradesList>
+        );
     };
 }
 const mapStateToProps = (state: StoreState): StateProps => {
