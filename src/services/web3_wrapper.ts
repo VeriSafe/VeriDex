@@ -50,6 +50,9 @@ export const initializeWeb3Wrapper = async (wallet: Wallet): Promise<Web3Wrapper
         case Wallet.Cipher:
             web3Wrapper = await initProviderWallet(wallet);
             break;
+        // case Wallet.WalletConnect:
+        //     web3Wrapper = await initWalletConnect(wallet);
+        //     break;
         default:
             break;
     }
@@ -250,7 +253,6 @@ export const initWalletConnect = async (): Promise<Web3Wrapper | null> => {
     // Subscribe to session connection/open
     provider.on('open', () => {
         localStorage.saveWalletConnected(Wallet.WalletConnect);
-        console.log('open');
     });
 
     // Subscribe to session disconnection/close

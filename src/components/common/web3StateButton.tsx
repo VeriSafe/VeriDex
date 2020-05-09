@@ -2,7 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 
-import { setWeb3State } from '../../store/actions';
+import { deleteWeb3Wrapper } from '../../services/web3_wrapper';
+import { resetWallet, setWeb3State } from '../../store/actions';
 import { getWeb3State } from '../../store/selectors';
 import { errorsWallet } from '../../util/error_messages';
 import { Web3State } from '../../util/types';
@@ -32,6 +33,12 @@ const Web3StateButton = () => {
     const dispatch = useDispatch();
     const onConnectWallet = () => {
         dispatch(setWeb3State(Web3State.Connecting));
+    };
+
+    const onErrorConnectWallet = () => {
+        dispatch(resetWallet());
+        deleteWeb3Wrapper();
+        dispatch(setWeb3State(Web3State.Connect));
     };
 
     const getContentFromWeb3State = (): React.ReactNode => {
@@ -67,11 +74,11 @@ const Web3StateButton = () => {
                 return <ErrorCard fontSize={FontSize.Large} text={'Connecting Wallet'} icon={ErrorIcons.Lock} />;
             case Web3State.Loading:
                 return (
-                    <ErrorCard
+                    <ErrorPointer
                         fontSize={FontSize.Large}
                         text={errorsWallet.mmLoading}
                         icon={ErrorIcons.Wallet}
-                        onClick={onConnectWallet}
+                        onClick={onErrorConnectWallet}
                     />
                 );
             case Web3State.Error:

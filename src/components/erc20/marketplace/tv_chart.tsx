@@ -7,7 +7,7 @@ import {
     LanguageCode,
     widget,
 } from '../../../charting_library/charting_library.min';
-import { RELAYER_URL } from '../../../common/constants';
+import { RELAYER_URL, IS_DEV } from '../../../common/constants';
 import { UDFCompatibleDatafeed } from '../../../datafeeds/udf/lib/udf-compatible-datafeed';
 
 const ChartContainer = styled.div`
@@ -51,7 +51,7 @@ export default class TVChartContainer extends React.PureComponent<Partial<ChartC
         interval: 'D',
         containerId: 'tv_chart_container',
         datafeedUrl: `${RELAYER_URL}/candles`,
-        libraryPath: '/charting_library/',
+        libraryPath: IS_DEV ? '/charting_library/' : './charting_library/',
         chartsStorageUrl: 'https://saveload.tradingview.com',
         chartsStorageApiVersion: '1.1',
         clientId: 'tradingview.com',

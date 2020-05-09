@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router';
 import { ThemeProvider } from 'styled-components';
@@ -10,10 +10,9 @@ import { PageLoading } from '../common/page_loading';
 import { GeneralLayoutContainer } from '../general_layout';
 
 import ToolbarContentContainer from './common/toolbar_content';
+import { MarketTrade } from './marketplace/market_trade';
 
 const toolbar = <ToolbarContentContainer />;
-
-const MarketTrade = lazy(() => import('./pages/market_trade'));
 
 const MarketTradeApp = () => {
     const themeColor = useSelector(getERC20Theme);

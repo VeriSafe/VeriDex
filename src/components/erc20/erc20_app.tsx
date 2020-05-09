@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router';
 import { ThemeProvider } from 'styled-components';
@@ -10,10 +10,19 @@ import { getERC20Theme } from '../../store/selectors';
 import { PageLoading } from '../common/page_loading';
 
 import ToolbarContentContainer from './common/toolbar_content';
+import AccountTradingsPage from './pages/account_trading';
+import JoinAsMakerPage from './pages/join_as_maker';
+import TokenListingPage from './pages/listing';
+import MarketMakerPage from './pages/market_maker';
+import Marketplace from './pages/marketplace';
+import MyWallet from './pages/my_wallet';
+import TokensListPage from './pages/tokens_list';
+import UserWizardPage from './pages/user_wizard';
+import WizardPage from './pages/wizard';
 
 const toolbar = <ToolbarContentContainer />;
 
-const TokensListPage = lazy(() => import('./pages/tokens_list'));
+/*const TokensListPage = lazy(() => import('./pages/tokens_list'));
 const MyWallet = lazy(() => import('./pages/my_wallet'));
 const AccountTradingsPage = lazy(() => import('./pages/account_trading'));
 const Marketplace = lazy(() => import('./pages/marketplace'));
@@ -21,7 +30,8 @@ const WizardPage = lazy(() => import('./pages/wizard'));
 const JoinAsMakerPage = lazy(() => import('./pages/join_as_maker'));
 const TokenListingPage = lazy(() => import('./pages/listing'));
 const UserWizardPage = lazy(() => import('./pages/user_wizard'));
-const MarketMakerPage = lazy(() => import('./pages/market_maker'));
+const MarketMakerPage = lazy(() => import('./pages/market_maker'));*/
+
 
 const Erc20App = () => {
     const themeColor = useSelector(getERC20Theme);

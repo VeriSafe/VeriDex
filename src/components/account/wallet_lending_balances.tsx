@@ -152,12 +152,6 @@ const CustomTDMobile = styled(CustomTD)`
 `;
 
 const WalletLendingBalances: React.FC<Props> = props => {
-    const [isEthState, setIsEthState] = useState(false);
-    const [isModalOpenState, setIsModalOpenState] = useState(false);
-    const [isSubmittingState, setIsSubmittingState] = useState(false);
-    const [iTokenDataState, setITokenDataState] = useState();
-    const [isLendingState, setIsLendingState] = useState(true);
-    const [tokenBalanceState, setTokenBalanceState] = useState();
 
     const {
         ethBalance,
@@ -175,6 +169,13 @@ const WalletLendingBalances: React.FC<Props> = props => {
         bzxLoadingState,
         windowWidth,
     } = props;
+
+    const [isEthState, setIsEthState] = useState(false);
+    const [isModalOpenState, setIsModalOpenState] = useState(false);
+    const [isSubmittingState, setIsSubmittingState] = useState(false);
+    const [iTokenDataState, setITokenDataState] = useState<iTokenData>(iTokensData[0]);
+    const [isLendingState, setIsLendingState] = useState(true);
+    const [tokenBalanceState, setTokenBalanceState] = useState<TokenBalance>(tokenBalances[0]);
 
     useEffect(() => {
         if (ethAccount) {
@@ -216,9 +217,11 @@ const WalletLendingBalances: React.FC<Props> = props => {
                 setIsModalOpenState(true);
                 if (isEthToken) {
                     setIsEthState(true);
+                    // @ts-ignore
                     setTokenBalanceState({ ...wethTokenBalance, balance: tokB });
                 } else {
                     setIsEthState(false);
+                    //@ts-ignore
                     setTokenBalanceState(tokenBalances.find(tb => tb.token === token));
                 }
                 setIsLendingState(true);
@@ -228,9 +231,11 @@ const WalletLendingBalances: React.FC<Props> = props => {
                 setITokenDataState(tokenD);
                 if (isEthToken) {
                     setIsEthState(true);
+                    // @ts-ignore
                     setTokenBalanceState({ ...wethTokenBalance, balance: tokB });
                 } else {
                     setIsEthState(false);
+                    //@ts-ignore
                     setTokenBalanceState(tokenBalances.find(tb => tb.token === token));
                 }
                 setIsModalOpenState(true);

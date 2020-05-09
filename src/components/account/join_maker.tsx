@@ -38,7 +38,7 @@ const JoinAsMaker = () => {
 
     return <Card title="Join as Market Maker: Veridex Pool">{content}</Card>;
 };
-
+// @ts-ignore
 const JoinAsMakerWithTheme = withTheme(JoinAsMaker);
 
 export { JoinAsMaker, JoinAsMakerWithTheme };

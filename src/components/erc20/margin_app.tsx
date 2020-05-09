@@ -10,10 +10,9 @@ import { PageLoading } from '../common/page_loading';
 import { GeneralLayoutContainer } from '../general_layout';
 
 import ToolbarContentContainer from './common/toolbar_content';
+import LendingPage from './pages/lending';
 
 const toolbar = <ToolbarContentContainer />;
-
-const LendingPage = React.lazy(() => import('./pages/lending'));
 
 export const MarginApp = () => {
     const themeColor = useSelector(getERC20Theme);

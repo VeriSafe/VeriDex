@@ -1,5 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router';
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import ReactModal from 'react-modal';
@@ -20,6 +20,13 @@ import {
 } from './common/constants';
 import { AppContainer } from './components/app';
 import { PageLoading } from './components/common/page_loading';
+import Erc20App from './components/erc20/erc20_app';
+import FiatApp from './components/erc20/fiat_ramp_app';
+import InstantApp from './components/erc20/instant_app';
+import LaunchpadApp from './components/erc20/launchpad_app';
+import MarginApp from './components/erc20/margin_app';
+import MarketTradeApp from './components/erc20/market_trade_app';
+import Erc721App from './components/erc721/erc721_app';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import { history, store } from './store';
@@ -43,13 +50,13 @@ if (['development', 'production'].includes(process.env.NODE_ENV) && !window.loca
 }
 const RedirectToHome = () => <Redirect to={DEFAULT_BASE_PATH} />;
 
-const Erc20App = lazy(() => import('./components/erc20/erc20_app'));
+/*const Erc20App = lazy(() => import('./components/erc20/erc20_app'));
 const LaunchpadApp = lazy(() => import('./components/erc20/launchpad_app'));
 const MarginApp = lazy(() => import('./components/erc20/margin_app'));
 const InstantApp = lazy(() => import('./components/erc20/instant_app'));
 const Erc721App = lazy(() => import('./components/erc721/erc721_app'));
 const FiatApp = lazy(() => import('./components/erc20/fiat_ramp_app'));
-const MarketTradeApp = lazy(() => import('./components/erc20/market_trade_app'));
+const MarketTradeApp = lazy(() => import('./components/erc20/market_trade_app'));*/
 
 const Web3WrappedApp = (
     <Provider store={store}>

@@ -22,7 +22,7 @@ export const RELAYER_URL = process.env.REACT_APP_RELAYER_URL || 'http://localhos
 export const RELAYER_WS_URL = process.env.REACT_APP_RELAYER_WS_URL || 'ws://localhost:3001';
 
 export const RPC_URL = process.env.REACT_APP_RPC_URL || 'https://cloudflare-eth.com/';
-
+export const IS_DEV = process.env.NODE_ENV === 'production' ? false : true;
 export const INFURA_ID = process.env.REACT_APP_INFURA_ID || '';
 
 export const TX_DEFAULTS = {

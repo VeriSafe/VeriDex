@@ -335,6 +335,7 @@ class WethModal extends React.Component<Props, State> {
                     onChange={this._updateSelectedWeth}
                     step="0.01"
                     style={{
+                        // @ts-ignore
                         '--min': '0',
                         '--max': totalEthStr,
                         '--val': selectedWethStr,

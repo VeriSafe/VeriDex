@@ -1,6 +1,7 @@
 import { HttpClient, OrderConfigRequest, OrderConfigResponse, SignedOrder } from '@0x/connect';
+import { Mesh } from '@0x/mesh-browser';
 import { assetDataUtils } from '@0x/order-utils';
-import { Orderbook } from '@0x/orderbook';
+import { Orderbook, OrderStore } from '@0x/orderbook';
 import { AssetProxyId } from '@0x/types';
 import { BigNumber } from '@0x/utils';
 import { RateLimit } from 'async-sema';
@@ -19,19 +20,33 @@ import {
     Token,
 } from '../util/types';
 
+import { getMesh } from './mesh';
+import { MeshBrowserOrderProvider } from './mesh_browser_order_provider';
+
+
+
 // tslint:disable-next-line
 const uuidv1 = require('uuid/v1');
 const logger = getLogger('Services::Relayer');
 export class Relayer {
     private readonly _client: HttpClient;
+    private readonly _mesh: Mesh;
+    private readonly _runInMesh: boolean = false;
     private readonly _rateLimit: () => Promise<void>;
     private readonly _orderbook: Orderbook;
 
     constructor(options: { rps: number }) {
-        this._orderbook = Orderbook.getOrderbookForWebsocketProvider({
-            httpEndpoint: RELAYER_URL,
-            websocketEndpoint: RELAYER_WS_URL,
-        });
+        this._mesh = getMesh();
+        if (this._runInMesh) {
+            const orderStore = new OrderStore();
+            const orderProvider = new MeshBrowserOrderProvider(this._mesh, orderStore);
+            this._orderbook = new Orderbook(orderProvider, orderStore);
+        } else {
+            this._orderbook = Orderbook.getOrderbookForWebsocketProvider({
+                httpEndpoint: RELAYER_URL,
+                websocketEndpoint: RELAYER_WS_URL,
+            });
+        }
         this._client = new HttpClient(RELAYER_URL);
         this._rateLimit = RateLimit(options.rps); // requests per second
     }
@@ -142,8 +157,19 @@ export class Relayer {
     }
 
     public async submitOrderAsync(order: SignedOrder): Promise<void> {
-        await this._rateLimit();
-        return this._client.submitOrderAsync(order);
+        if (this._runInMesh) {
+            const validationResults =  await this._mesh.addOrdersAsync([order]);
+            if (validationResults.accepted.length > 0) {
+                return;
+            } else {
+                throw Error('order not accepted');
+            }
+
+        } else {
+            await this._rateLimit();
+            return this._client.submitOrderAsync(order);
+        }
+          
     }
 
     private async _getOrdersAsync(

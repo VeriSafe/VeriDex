@@ -57,11 +57,13 @@ export class ConfigTemplate {
             this._validator.addSchema(schema, schema.id);
         }
         this._validator.validate(configTemplateFile, configSchema, { throwError: true });
+        // @ts-ignore
         this._config = configTemplateFile;
     }
 
     public _setConfig(config: ConfigFile): void {
         this._validator.validate(configTemplateFile, configSchema, { throwError: true });
+          // @ts-ignore
         this._config = configTemplateFile;
     }
 
