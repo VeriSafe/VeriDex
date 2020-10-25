@@ -1,3 +1,7 @@
+# NOT SUPPORTED
+
+## This is project is no longer maintained and therefore not recommended to use. No support is given! Use it only as reference implementation for your own project!
+
 # Veridex
 
 [![Chat with us on Discord](https://img.shields.io/badge/chat-Discord-blueViolet.svg)](https://discord.gg/JqheZms)
